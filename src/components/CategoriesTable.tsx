@@ -16,8 +16,12 @@ const CategoriesTable = () => {
           <div className="">
             <div className="sm:flex sm:items-center">
               <div className="sm:flex-auto">
-                <h1 className="text-base font-semibold leading-6 text-white">Categories</h1>
-                <p className="mt-2 text-sm text-gray-300">A list of all categories</p>
+                <h1 className="text-base font-semibold leading-6 text-white">
+                  Categories
+                </h1>
+                <p className="mt-2 text-sm text-gray-300">
+                  A list of all categories
+                </p>
               </div>
               <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
                 <button
@@ -65,7 +69,7 @@ const CategoriesTable = () => {
                     </thead>
                     <tbody className="divide-y divide-gray-800">
                       {categories?.map((category: Category) => (
-                        <tr key={category.id}>
+                        <tr key={crypto.randomUUID()}>
                           <td className="whitespace-nowrap px-3 py-3.5 text-sm font-medium text-white sm:pl-0">
                             {category.id}
                           </td>

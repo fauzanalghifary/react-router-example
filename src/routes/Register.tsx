@@ -1,35 +1,14 @@
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import { REGISTER_API_URL } from '../utils/constant.ts'
-import Swal from 'sweetalert2'
+import useRegister from '../hooks/useRegister.ts'
 
 // name: pojan1
 // email: pojan1@email.com
 // pass: pojan1
 
 const RegisterPage = () => {
-  const navigate = useNavigate()
-  const handleRegister = async () => {
-    const response = await fetch(REGISTER_API_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(formik.values)
-    })
-
-    const data = await response.json()
-    console.log(data)
-
-    await Swal.fire({
-      icon: 'success',
-      title: 'Register Success',
-      text: 'You can login now'
-    })
-
-    navigate('/login')
-  }
+  const { triggerRegister } = useRegister()
 
   const formik = useFormik({
     initialValues: {
@@ -38,18 +17,22 @@ const RegisterPage = () => {
       password: ''
     },
     validationSchema: Yup.object({
-      name: Yup.string().min(5, 'Must be 5 characters or more').required('Required'),
+      name: Yup.string()
+        .min(5, 'Must be 5 characters or more')
+        .required('Required'),
       email: Yup.string().email('Invalid email address').required('Required'),
-      password: Yup.string().min(5, 'Must be 5 characters or more').required('Required')
+      password: Yup.string()
+        .min(5, 'Must be 5 characters or more')
+        .required('Required')
     }),
     onSubmit: async (_, { resetForm }) => {
-      await handleRegister()
+      await triggerRegister(formik.values)
       resetForm()
     }
   })
 
   return (
-    <div className={`text-white w-full`}>
+    <div className={`w-full text-white`}>
       <div className="flex min-h-full flex-1 flex-col justify-center">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <h2 className="text-center text-2xl font-bold leading-9 tracking-tight text-white">
@@ -60,7 +43,10 @@ const RegisterPage = () => {
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
           <form className="space-y-6" onSubmit={formik.handleSubmit}>
             <div>
-              <label htmlFor="name" className="block text-sm font-medium leading-6 text-white">
+              <label
+                htmlFor="name"
+                className="block text-sm font-medium leading-6 text-white"
+              >
                 Name
               </label>
               <div className="mt-2">
@@ -79,7 +65,10 @@ const RegisterPage = () => {
             </div>
 
             <div>
-              <label htmlFor="email" className="block text-sm font-medium leading-6 text-white">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium leading-6 text-white"
+              >
                 Email address
               </label>
               <div className="mt-2">
@@ -116,7 +105,9 @@ const RegisterPage = () => {
                   className="block w-full rounded-md border-0 bg-white/5 p-2.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
                 />
                 {formik.errors.password ? (
-                  <div className={`mt-2 text-red-300`}>{formik.errors.password}</div>
+                  <div className={`mt-2 text-red-300`}>
+                    {formik.errors.password}
+                  </div>
                 ) : null}
               </div>
             </div>

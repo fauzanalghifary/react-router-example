@@ -7,8 +7,8 @@ import useCategoryGet from '../hooks/useCategoryGet.ts'
 
 const EditCategory = () => {
   const { categoryId } = useParams() as { categoryId: string }
-  const { triggerUpdate } = useCategoryUpdate()
   const { category } = useCategoryGet({ id: categoryId })
+  const { triggerUpdate } = useCategoryUpdate()
 
   const formik = useFormik({
     enableReinitialize: true,
